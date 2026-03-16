@@ -14,7 +14,7 @@ class TestRegistration:
                 "email": "newuser@example.com",
                 "password": "securepassword123",
                 "name": "New User",
-            }),
+            }).encode('utf-8'),
             content_type="application/json",
         )
         assert response.status_code == 201
