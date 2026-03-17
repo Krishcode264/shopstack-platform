@@ -26,7 +26,8 @@ router.get("/me/profile", authenticate, async (req, res) => {
 // PUT /api/users/me/profile
 router.put("/me/profile", authenticate, async (req, res) => {
   try {
-    const { avatar, bio, phone } = req.body;
+    if (!req.body.email) throw new Error('Email cannot be null');
+
     const user = await userService.updateProfile(req.userId, {
       avatar,
       bio,
