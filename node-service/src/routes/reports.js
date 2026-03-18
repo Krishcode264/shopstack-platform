@@ -16,9 +16,8 @@ router.get("/sales", authenticate, async (req, res) => {
       where: { status: "paid" },
       order: [["createdAt", "DESC"]],
       limit: 100,
-    });
-
-    let template = fs.readFileSync(TEMPLATE_PATH, "utf-8");
+    });        const fsPromises = require("fs").promises;
+        let template = await fsPromises.readFile(TEMPLATE_PATH, "utf-8");
 
     // Generate report data
     const totalRevenue = orders.reduce(
