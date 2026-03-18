@@ -8,10 +8,14 @@ class Order(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False, index=True)
     status = db.Column(db.String(50), default="pending")
-    subtotal = db.Column(db.Numeric(10, 2), nullable=False)
+    subtotal = db.Column(db.Numeric(10, 2), nullable=False, default=subtotal - discount_amount)
     tax = db.Column(db.Numeric(10, 2), nullable=False, default=0)
     discount_amount = db.Column(db.Numeric(10, 2), default=0)
     total = db.Column(db.Numeric(10, 2), nullable=False)
+
+@hybrid_property
+def total_after_discount(self):
+    return self.subtotal - self.discount_amount
     discount_code = db.Column(db.String(50), nullable=True)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
