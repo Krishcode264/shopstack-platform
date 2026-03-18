@@ -7,8 +7,16 @@ const router = express.Router();
 
 // GET /api/users/:id
 router.get("/:id", authenticate, async (req, res) => {
-  const user = await userService.getById(req.params.id);
-  res.json({ user: user.toJSON() });
+  try {
+    const user = await userService.getById(req.params.id);
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+    res.json({ user: user.toJSON() });
+  } catch (error) {
+    console.error(`Error fetching user ${req.params.id}:`, error);
+    res.status(500).json({ error: "Failed to fetch user" });
+  }
 });
 
 // GET /api/users/me/profile
