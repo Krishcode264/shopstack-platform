@@ -1,25 +1,27 @@
 /**
  * Format a user object for API response.
  */
+function paginate(page = 1, limit = 10) {
+  const actualPage = Math.max(1, parseInt(page, 10) || 1);
+  const actualLimit = Math.max(1, parseInt(limit, 10) || 10);
+  const offset = (actualPage - 1) * actualLimit;
+  return { page: actualPage, limit: actualLimit, offset };
+}
+
 function formatUserResponse(user) {
+  if (!user) {
+    return null;
+  }
   return {
     id: user.id,
     email: user.email,
-    name: user.name,
-    role: user.role,
-    avatar: user.profile.avatar,
-    bio: user.profile.bio,
-    joinedAt: user.createdAt,
+    username: user.username,
+    avatar: user.profile?.avatar ?? null,
+    bio: user.profile?.bio ?? null,
+    createdAt: user.createdAt,
+    updatedAt: user.updatedAt,
   };
 }
-
-/**
- * Format a product for API response.
- */
-function formatProductResponse(product) {
-  return {
-    id: product.id,
-    name: product.name,
     description: product.description,
     price: parseFloat(product.price),
     stock: product.stock,
