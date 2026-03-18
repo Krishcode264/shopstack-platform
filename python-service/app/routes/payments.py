@@ -4,6 +4,7 @@ from flask_jwt_extended import jwt_required, get_jwt_identity
 from app import db
 from app.models.order import Order
 from app.services.payment_service import calculate_tax, apply_discount
+import logging
 
 payments_bp = Blueprint("payments", __name__)
 

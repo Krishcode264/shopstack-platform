@@ -18,7 +18,7 @@ router.get("/sales", authenticate, async (req, res) => {
       limit: 100,
     });
 
-    let template = fs.readFileSync(TEMPLATE_PATH, "utf-8");
+    let template = await fs.promises.readFile(TEMPLATE_PATH, "utf-8");
 
     // Generate report data
     const totalRevenue = orders.reduce(
